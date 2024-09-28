@@ -11,6 +11,7 @@ const BOT_IMG = "http://localhost:8080/static/robot.jpg";
 const PERSON_IMG = "http://localhost:8080/static/man.png";
 const BOT_NAME = "BOT";
 const PERSON_NAME = "Anoop";
+new_chat = true;
 var msgerForm, msgerInput, msgerChat
 document.addEventListener('DOMContentLoaded', function () {
     msgerForm = get(".msger-inputarea");
@@ -28,6 +29,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function appendMessage(name, img, side, text) {
   //   Simple solution for small apps
+  var messageId = crypto.randomUUID();
   const msgHTML = `
     <div class="msg ${side}-msg">
       <div class="msg-img" style="background-image: url(${img})"></div>
@@ -38,23 +40,25 @@ function appendMessage(name, img, side, text) {
           <div class="msg-info-time">${formatDate(new Date())}</div>
         </div>
 
-        <div class="msg-text">${text}</div>
+        <div class="msg-text" id="${messageId}">${text}</div>
       </div>
     </div>
   `;
 
   msgerChat.insertAdjacentHTML("beforeend", msgHTML);
   msgerChat.scrollTop += 500;
+  return messageId;
 }
 
 function botResponse() {
   const r = random(0, BOT_MSGS.length - 1);
   const msgText = BOT_MSGS[r];
-  const delay = msgText.split(" ").length * 100;
-
-  setTimeout(() => {
-    appendMessage(BOT_NAME, BOT_IMG, "left", msgText);
-  }, delay);
+  var chatMessage = {
+    question: self.crypto.randomUUID(),
+    new_chat: new_chat
+  };
+  var messageId = appendMessage(BOT_NAME, BOT_IMG, "left", "");
+  processStreamingResponse('http://localhost:8080/v1/test/stream', messageId, chatMessage)
 }
 
 // Utils
@@ -71,4 +75,35 @@ function formatDate(date) {
 
 function random(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
+}
+
+async function processStreamingResponse(url, messageId, chatMessage) {
+  console.log(messageId);
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(chatMessage)
+  });
+  if (!response.ok) {
+    var textElement = document.getElementById(messageId);
+    var messageText = document.createTextNode('Network response was not ok');
+    textElement.appendChild(messageText);
+    throw new Error('Network response was not ok');
+  }
+  const reader = response.body.getReader();
+  const decoder = new TextDecoder();
+  while (true) {
+    const { value, done } = await reader.read();
+    if (done) {
+      break;
+    }
+    const chunk = decoder.decode(value);
+    console.log(chunk);
+    // Process the chunk of streaming data
+    var textElement = document.getElementById(messageId);
+    var messageText = document.createTextNode(chunk);
+    textElement.appendChild(messageText);
+  }
 }
