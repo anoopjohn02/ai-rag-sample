@@ -17,8 +17,8 @@ class TestController(Controller):
     prefix = "/v1/test"
     tags = ["test chat"]
 
-    @get("/stream")
-    async def test_stream(self, question: str, new_chat: bool):
+    @post("/stream")
+    async def test_stream(self, request: Request):
         """
         Test AOI method
         """
@@ -31,13 +31,13 @@ class TestController(Controller):
                     client_roles= [],
                     )
         service = ChatService()
-        request = Request(question=question, new_chat=new_chat)
-        logging.info("New chat = %s", new_chat)
+        logging.info("New chat = %s", request.new_chat)
         chat = service.start_chat(request, user)
-        logging.info("User %s asked question: %s", user.first_name, question)
-        return StreamingResponse(chat.stream(question), media_type='text/event-stream')
+        logging.info("User %s asked question: %s", user.first_name, request.question)
+        return StreamingResponse(chat.stream(request.question), media_type='text/event-stream')
 
 class ChatController(Controller):
+
     """
     Chat controller class
     """
