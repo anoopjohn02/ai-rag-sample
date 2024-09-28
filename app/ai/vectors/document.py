@@ -63,7 +63,7 @@ def process_documents(chunk_size = 1000, chunk_overlap = 200):
             file_mtime = os.path.getmtime(file_path)
 
             # Check if file has been modified since last processing
-            if filename in metadata and file_mtime <= metadata[filename].last_modified.timestamp():
+            if filename in metadata and (file_mtime - metadata[filename].last_modified.timestamp() > 0):
                 logging.info("Skipping %s - already processed", filename)
                 continue
 

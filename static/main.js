@@ -1,11 +1,3 @@
-const BOT_MSGS = [
-  "Hi, how are you?",
-  "Ohh... I can't understand what you trying to say. Sorry!",
-  "I like to play games... But I don't know how to play!",
-  "Sorry if my answers are not relevant. :))",
-  "I feel sleepy! :("
-];
-
 // Icons made by Freepik from www.flaticon.com
 const BOT_IMG = "http://localhost:8080/static/robot.jpg";
 const PERSON_IMG = "http://localhost:8080/static/man.png";
@@ -23,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!msgText) return;
         appendMessage(PERSON_NAME, PERSON_IMG, "right", msgText);
         msgerInput.value = "";
-        botResponse();
+        botResponse(msgText);
     });
 });
 
@@ -50,11 +42,9 @@ function appendMessage(name, img, side, text) {
   return messageId;
 }
 
-function botResponse() {
-  const r = random(0, BOT_MSGS.length - 1);
-  const msgText = BOT_MSGS[r];
+function botResponse(msgText) {
   var chatMessage = {
-    question: self.crypto.randomUUID(),
+    question: msgText,
     new_chat: new_chat
   };
   var messageId = appendMessage(BOT_NAME, BOT_IMG, "left", "");
