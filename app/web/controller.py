@@ -32,9 +32,13 @@ class TestController(Controller):
                     )
         service = ChatService()
         logging.info("New chat = %s", request.new_chat)
-        chat = service.start_chat(request, user)
         logging.info("User %s asked question: %s", user.first_name, request.question)
-        return StreamingResponse(chat.stream(request.question), media_type='text/event-stream')
+        agent = service.create_agent(request, user)
+        return StreamingResponse(service.agent_stream(request.question, agent), media_type='text/event-stream')
+        #chat = service.create_agent(request, user)
+        #question = {"input": request.question}#, "user_id": str(user.id)
+        #return chat.stream(question)
+        #return StreamingResponse(chat.stream(question), media_type='text/event-stream')
 
 class ChatController(Controller):
 
@@ -51,7 +55,7 @@ class ChatController(Controller):
         Get the answer for the user input
         """
         service = ChatService()
-        chat = service.start_chat(request, user)
+        chat = service.create_agent(request, user)
         logging.info("User %s asked question: %s", user.first_name, request.question)
         return StreamingResponse(chat.stream(request.question), media_type='text/event-stream')
 

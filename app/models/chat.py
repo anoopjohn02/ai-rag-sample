@@ -17,7 +17,7 @@ class Response(BaseModel):
     """
     text: str
 
-class ChatArgs:
+class ChatArgs():
     """
     Chat arguments
     """

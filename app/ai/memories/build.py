@@ -22,7 +22,7 @@ def build_memory(chat_args: ChatArgs):
         ),
         return_messages=True,
         memory_key="chat_history",
-        output_key="answer"
+        output_key="output"
     )
 
 def build_window_memory(chat_args):
