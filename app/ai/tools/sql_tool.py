@@ -1,13 +1,13 @@
-import logging
-from langchain.agents import Tool
+
+import uuid
 import logging
 
 from langchain.agents import Tool
-
+from app.services import get_user_message_token_usage
 
 def token_usage_query(query):
     logging.log("token_usage_query: User with id ")
-    return []
+    return get_user_message_token_usage(uuid.UUID(user_id).hex)
 
 token_usage_tool = Tool(
     name="SQLQueryTool",

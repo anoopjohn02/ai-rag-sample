@@ -2,6 +2,7 @@
 Controller module
 """
 import logging
+import uuid
 
 from fastapi import Depends
 from fastapi.responses import StreamingResponse
@@ -9,7 +10,7 @@ from fastapi_controllers import Controller, get, post
 
 from app.models.chat import Request
 from app.models.user import LoggedInUser
-from app.services import ChatService, get_message_token_usage, get_document_embeddings
+from app.services import ChatService, get_message_token_usage, get_document_embeddings, get_user_message_token_usage
 from app.web import valid_access_token, get_user_info
 
 
@@ -74,6 +75,13 @@ class TokenUsageController(Controller):
         API to get token usage
         """
         return get_message_token_usage()
+
+    @get("/usage/{user_id}")
+    def user_token_usage(self, user_id: str):
+        """
+        API to get token usage for a user
+        """
+        return get_user_message_token_usage(uuid.UUID(user_id).hex)
     
     @get("/embeddings")
     def embeddings(self):

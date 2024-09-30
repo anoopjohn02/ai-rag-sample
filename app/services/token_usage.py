@@ -76,3 +76,18 @@ def get_document_embeddings() -> Embedding:
         dto.docs = [Document(**doc.__dict__) for doc in entity.files]
         embeddings.append(dto)
     return embeddings
+
+def get_user_message_token_usage(user_id: uuid) -> TokenUsage:
+    """
+        Method to get user message token usages
+        """
+    usages: List[TokenUsage] = []
+    tokens = messageTokenRepo.get_user_message_usages(user_id)
+    for token in tokens:
+        dto = TokenUsage(**token.__dict__)
+        dto.llm_model = token.llm_model
+        messages = get_messages_by_transaction_id(token.transaction_id)
+        dto.messages = [Message(**message.__dict__) for message in messages]
+        dto.user = User(id=token.conversation_history.user_id)
+        usages.append(dto)
+    return usages
