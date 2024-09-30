@@ -10,7 +10,7 @@ from app.ai.llms import build_llm, build_condense_llm
 from app.ai.vectors import build_retriever
 from app.ai.memories import build_memory
 from app.models.chat import ChatArgs
-from .handlers import build_token_handler, build_streaming_handler
+from .handlers import build_token_handler
 from .tools import token_usage_tool, vector_tool
 from app.config import CUSTOM_PROMPT_TEMPLATE, CUSTOM_PROMPT
 
@@ -48,8 +48,7 @@ def build_chain(chat_args: ChatArgs):
 
 def build_agent(chat_args: ChatArgs):
     token_handler = build_token_handler(chat_args)
-    streaming_handler = build_streaming_handler()
-    handlers = [token_handler, streaming_handler]
+    handlers = [token_handler]
     llm = build_llm(chat_args, handlers)
     memory = build_memory(chat_args)
     tools = [token_usage_tool, vector_tool]
@@ -59,7 +58,6 @@ def build_agent(chat_args: ChatArgs):
         tools=tools
     )
     return StreamingAgentExecutor(
-        handler=streaming_handler,
         agent=agent,
         verbose=True,
         tools=tools,

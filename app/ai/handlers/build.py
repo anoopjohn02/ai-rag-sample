@@ -6,9 +6,6 @@ from ...models.chat import ChatArgs
 from ...models.token import TransactionalTokens
 from app.ai.llms import EMBEDDING_MODEL, MODEL_NAME
 
-def build_streaming_handler():
-    queue = Queue()
-    return StreamingHandler(queue)
 
 def build_token_handler(chat_args: ChatArgs):
     token = TransactionalTokens(query=chat_args.query,

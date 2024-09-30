@@ -2,6 +2,8 @@
 Streaming Handler Module
 """
 import logging
+from typing import Any, Dict, List, Optional
+from uuid import UUID
 from langchain.callbacks.base import BaseCallbackHandler
 
 class StreamingHandler(BaseCallbackHandler):
@@ -33,8 +35,15 @@ class StreamingHandler(BaseCallbackHandler):
         """
         logging.debug("Streaming ends...")
         if run_id in self.streaming_run_ids:
-            self.queue.put(None)
+            self.queue.put("")
             self.streaming_run_ids.remove(run_id)
+
+    def on_chain_end(self, outputs: Dict[str, Any], *, run_id: UUID,
+            parent_run_id: Optional[UUID] = None,
+            tags: Optional[List[str]] = None,
+            **kwargs: Any,) -> None:
+        logging.info("CHAIN: Completed")
+        self.queue.put(None)
 
     def on_llm_error(self, error, **kwargs):
         self.queue.put(None)
