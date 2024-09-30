@@ -63,5 +63,5 @@ def build_agent(chat_args: ChatArgs):
         agent=agent,
         verbose=True,
         tools=tools,
-        memory=memory,
+        memory=memory
     )

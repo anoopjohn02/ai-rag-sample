@@ -13,25 +13,21 @@ class Streamable:
     """
     Streamable chain
     """
-    handler: StreamingHandler
-    def set_handler(self, handler: StreamingHandler):
-        self.handler = handler
-
     def stream(self, input):
         """
         Stream function
         Args:
             input(Any): the user input
         """
-        def task():
-            self(input, callbacks=[self.handler])
-        Thread(target=task).start()
-        self.listen_queue()
+        queue = Queue()
+        handler = StreamingHandler(queue)
 
-    def listen_queue(self):
+        def task():
+            self(input, callbacks=[handler])
+
+        Thread(target=task).start()
         while True:
-            token = self.handler.get_queue().get()
+            token = queue.get()
             if token is None:
                 break
-            logging.info("Sending token: %s", token)
             yield token
