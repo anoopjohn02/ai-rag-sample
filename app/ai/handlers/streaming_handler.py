@@ -4,7 +4,9 @@ Streaming Handler Module
 import logging
 from typing import Any, Dict, List, Optional
 from uuid import UUID
+
 from langchain.callbacks.base import BaseCallbackHandler
+
 
 class StreamingHandler(BaseCallbackHandler):
     """

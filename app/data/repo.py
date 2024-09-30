@@ -3,12 +3,14 @@
 Repository module
 """
 from sqlalchemy import select
-from app.data import (ConversationHistory, 
-                      ConversationMessage, 
-                      MessageTokenUsage, 
-                      DocumentEmbedding, 
+
+from app.data import (ConversationHistory,
+                      ConversationMessage,
+                      MessageTokenUsage,
+                      DocumentEmbedding,
                       DocumentEmbeddingFiles)
 from .sql_engine import Session
+
 
 class ConversationRepo():
     """

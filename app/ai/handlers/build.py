@@ -1,10 +1,8 @@
-from queue import Queue
-from .streaming_handler import StreamingHandler
+from app.ai.llms import EMBEDDING_MODEL, MODEL_NAME
 from .token_handler import TokenAsyncHandler
 from ..llms import calculate_tokens
 from ...models.chat import ChatArgs
 from ...models.token import TransactionalTokens
-from app.ai.llms import EMBEDDING_MODEL, MODEL_NAME
 
 
 def build_token_handler(chat_args: ChatArgs):

@@ -2,11 +2,14 @@
 Costs per transaction
 """
 import uuid
-from uuid import UUID
-from typing import List, Optional
 from datetime import datetime
+from typing import List, Optional
+from uuid import UUID
+
 from pydantic import BaseModel
+
 from app.models.user import User
+
 
 class Document(BaseModel):
     """

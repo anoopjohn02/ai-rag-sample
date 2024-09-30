@@ -3,6 +3,7 @@ SQL Engine module
 """
 from sqlalchemy import create_engine, text
 from sqlalchemy.orm import sessionmaker
+
 from app.config import Db as db
 
 engine = create_engine(db.connUrl, echo=False)

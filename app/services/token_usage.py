@@ -4,6 +4,8 @@ Message Token Usage Module
 import logging
 import uuid
 from typing import List
+
+from app.config.constants import MODEL_COSTS
 from app.data import MessageTokenUsage, MessageTokenUsageRepo, DocumentEmbeddingRepo
 from app.models.token import (TransactionalTokens,
                               TokenUsage,
@@ -11,7 +13,6 @@ from app.models.token import (TransactionalTokens,
                               Embedding,
                               Document)
 from app.models.user import User
-from app.config.constants import MODEL_COSTS
 from .conversation import get_messages_by_transaction_id
 
 messageTokenRepo = MessageTokenUsageRepo()

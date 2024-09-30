@@ -5,9 +5,11 @@ from langchain.memory import (
     ConversationBufferMemory,
     ConversationBufferWindowMemory,
     ConversationTokenBufferMemory
-    )
+)
+
 from app.models.chat import ChatArgs
 from .histories import SqlMessageHistory
+
 
 def build_memory(chat_args: ChatArgs):
     """

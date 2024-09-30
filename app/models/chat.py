@@ -2,7 +2,9 @@
 Chat Module contains chat models
 """
 import uuid
+
 from pydantic import BaseModel
+
 
 class Request(BaseModel):
     """

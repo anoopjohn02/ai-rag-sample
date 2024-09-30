@@ -1,9 +1,11 @@
 """
 Auth Module
 """
-from uuid import UUID
 from typing import Optional
+from uuid import UUID
+
 from pydantic import BaseModel
+
 
 class User(BaseModel):
     """

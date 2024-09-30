@@ -2,13 +2,16 @@
 Controller module
 """
 import logging
-from fastapi_controllers import Controller, get, post
-from fastapi.responses import StreamingResponse
+
 from fastapi import Depends
+from fastapi.responses import StreamingResponse
+from fastapi_controllers import Controller, get, post
+
 from app.models.chat import Request
 from app.models.user import LoggedInUser
 from app.services import ChatService, get_message_token_usage, get_document_embeddings
 from app.web import valid_access_token, get_user_info
+
 
 class TestController(Controller):
     """

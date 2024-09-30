@@ -2,13 +2,14 @@
 Auth Module
 """
 from typing import Annotated
+
+import jwt
 from fastapi import status, Depends, HTTPException
 from fastapi.security import OAuth2AuthorizationCodeBearer
-
 from jwt import PyJWKClient
-import jwt
-from app.models.user import LoggedInUser
+
 from app.config import AuthConfig as auth
+from app.models.user import LoggedInUser
 
 oauth_2_scheme = OAuth2AuthorizationCodeBearer(
     tokenUrl = f"{auth.url}/protocol/openid-connect/token",

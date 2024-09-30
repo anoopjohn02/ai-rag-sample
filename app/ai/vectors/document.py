@@ -1,17 +1,18 @@
 """
 Document module
 """
-import os
-import json
 import logging
+import os
 import uuid
 from datetime import datetime
+
 import tiktoken
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import PyPDFLoader
-from app.config import OpenaiConfig
-from app.config import PDF_DIRECTORY, METADATA_FILE
+
 from app.ai.llms import EMBEDDING_MODEL
+from app.config import OpenaiConfig
+from app.config import PDF_DIRECTORY
 from app.data import (DocumentEmbedding,
                       DocumentEmbeddingFiles,
                       DocumentEmbeddingRepo,
@@ -63,7 +64,7 @@ def process_documents(chunk_size = 1000, chunk_overlap = 200):
             file_mtime = os.path.getmtime(file_path)
 
             # Check if file has been modified since last processing
-            if filename in metadata and (file_mtime - metadata[filename].last_modified.timestamp() > 0):
+            if filename in metadata and (file_mtime - metadata[filename].last_modified.timestamp() < 5):
                 logging.info("Skipping %s - already processed", filename)
                 continue
 

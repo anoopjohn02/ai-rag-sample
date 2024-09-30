@@ -1,7 +1,6 @@
 """
 Data Module
 """
-from .sql_engine import check_db
 from .entities import (ConversationHistory,
                        ConversationMessage,
                        MessageTokenUsage,
@@ -12,3 +11,4 @@ from .repo import (ConversationRepo,
                    MessageTokenUsageRepo,
                    DocumentEmbeddingRepo,
                    DocumentEmbeddingFilesRepo)
+from .sql_engine import check_db

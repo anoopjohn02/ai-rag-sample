@@ -1,15 +1,18 @@
 """
 Token handler module
 """
-from datetime import datetime
 import logging
+from datetime import datetime
 from typing import Any, Dict, List, Optional
 from uuid import UUID
+
 from langchain.callbacks.base import AsyncCallbackHandler
 from langchain.schema import LLMResult
 from langchain_core.messages import BaseMessage
+
 from app.models.token import TransactionalTokens
 from app.services.token_usage import save_message_token_usage
+
 
 class TokenAsyncHandler(AsyncCallbackHandler):
     """

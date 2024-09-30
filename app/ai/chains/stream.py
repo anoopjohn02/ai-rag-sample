@@ -5,9 +5,8 @@ The stream module
 from queue import Queue
 from threading import Thread
 
-import logging
-
 from app.ai.handlers import StreamingHandler
+
 
 class Streamable:
     """

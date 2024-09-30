@@ -76,6 +76,7 @@ async function processStreamingResponse(url, messageId, chatMessage) {
     },
     body: JSON.stringify(chatMessage)
   });
+  new_chat = false;
   if (!response.ok) {
     var textElement = document.getElementById(messageId);
     var messageText = document.createTextNode('Network response was not ok');
