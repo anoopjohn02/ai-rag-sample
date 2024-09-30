@@ -3,7 +3,6 @@ Streaming Handler Module
 """
 import logging
 from langchain.callbacks.base import BaseCallbackHandler
-#from langchain.callbacks import get_openai_callback
 
 class StreamingHandler(BaseCallbackHandler):
     """
@@ -13,14 +12,19 @@ class StreamingHandler(BaseCallbackHandler):
         self.queue = queue
         self.streaming_run_ids = set()
 
+    def get_queue(self):
+        return self.queue
+
     def on_chat_model_start(self, serialized, messages, run_id, **kwargs):
         """
         Override method: on_chat_model_start
         """
+        logging.info("Streaming starts...")
         if serialized["kwargs"]["streaming"]:
             self.streaming_run_ids.add(run_id)
 
     def on_llm_new_token(self, token, **kwargs):
+        logging.debug("Inside streaming handler %s", token)
         self.queue.put(token)
 
     def on_llm_end(self, response, run_id, **kwargs):

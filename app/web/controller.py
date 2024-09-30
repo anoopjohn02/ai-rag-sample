@@ -34,11 +34,9 @@ class TestController(Controller):
         logging.info("New chat = %s", request.new_chat)
         logging.info("User %s asked question: %s", user.first_name, request.question)
         agent = service.create_agent(request, user)
-        return StreamingResponse(service.agent_stream(request.question, agent), media_type='text/event-stream')
-        #chat = service.create_agent(request, user)
-        #question = {"input": request.question}#, "user_id": str(user.id)
-        #return chat.stream(question)
-        #return StreamingResponse(chat.stream(question), media_type='text/event-stream')
+        #return agent(request.question)["output"]
+        return StreamingResponse(agent.stream(request.question), media_type='text/event-stream')
+
 
 class ChatController(Controller):
 

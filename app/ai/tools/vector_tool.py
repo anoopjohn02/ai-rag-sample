@@ -9,5 +9,5 @@ def vector_tool_query(query):
 vector_tool = Tool(
     name="VectorQueryTool",
     func=vector_tool_query,
-    description="Use this tool when query contains details about spices."
+    description="Use this tool when query contains details about spices. Pass the query to the tool."
 )
