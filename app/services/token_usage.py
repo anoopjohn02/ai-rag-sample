@@ -79,8 +79,8 @@ def get_document_embeddings() -> Embedding:
 
 def get_user_message_token_usage(user_id: uuid) -> TokenUsage:
     """
-        Method to get user message token usages
-        """
+    Method to get user message token usages
+    """
     usages: List[TokenUsage] = []
     tokens = messageTokenRepo.get_user_message_usages(user_id)
     for token in tokens:

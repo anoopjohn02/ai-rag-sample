@@ -32,8 +32,10 @@ def build_agent(chat_args: ChatArgs):
     token_handler = build_token_handler(chat_args)
     handlers = [token_handler]
     llm = build_llm(chat_args, handlers)
-    memory = build_memory(chat_args)
+    #token_usage_tool["args"]["user_id"] = str(chat_args.user_id)
     tools = [token_usage_tool, vector_tool]
+    #llm_with_tools = llm.bind_tools(tools)
+    memory = build_memory(chat_args)
     agent = OpenAIFunctionsAgent(
         llm=llm,
         prompt=prompt,

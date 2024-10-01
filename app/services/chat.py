@@ -22,5 +22,5 @@ class ChatService:
             conversation_id = create_new_user_conversation(user.id)
         else:
             conversation_id = get_default_user_conversation(user.id)
-        chat_args = ChatArgs(request.question, conversation_id, uuid.uuid1(), True)
+        chat_args = ChatArgs(user.id, request.question, conversation_id, uuid.uuid1(), True)
         return build_agent(chat_args)
