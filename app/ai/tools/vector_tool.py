@@ -1,6 +1,6 @@
 from langchain_core.tools import tool
 
-from app.ai.vectors import build_vector_store
+from app.ai.vectors import build_retriever
 
 
 @tool
@@ -8,6 +8,6 @@ def vector_tool(query):
     """
     Use this tool when query contains details about spices. Pass the query to the tool.
     """
-    vectorstore = build_vector_store()
-    results = vectorstore.similarity_search(query)
+    retriever = build_retriever()
+    results = retriever.get_relevant_documents(query)
     return results
