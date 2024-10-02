@@ -2,7 +2,6 @@
 """
 Repository module
 """
-import uuid
 
 from sqlalchemy import select
 

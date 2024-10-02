@@ -1,7 +1,7 @@
-from langchain.agents import Tool
+from langchain_core.tools import tool
 
 from app.ai.vectors import build_vector_store
-from langchain_core.tools import tool
+
 
 @tool
 def vector_tool(query):

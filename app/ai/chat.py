@@ -1,14 +1,11 @@
 """
 Chat Module
 """
-from copy import deepcopy
 
-from langchain.agents import OpenAIFunctionsAgent, create_openai_functions_agent
+from langchain.agents import OpenAIFunctionsAgent
 from langchain.prompts import (PromptTemplate, ChatPromptTemplate,
                                HumanMessagePromptTemplate, MessagesPlaceholder)
 from langchain.schema import SystemMessage
-from langchain_core.runnables import chain
-from langchain_core.tools import tool
 
 from app.ai.chains import StreamingAgentExecutor
 from app.ai.llms import build_llm

@@ -7,6 +7,13 @@ from uuid import UUID
 from pydantic import BaseModel
 
 
+class TokenUser(BaseModel):
+    """
+    Token User Dto
+    """
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
+
 class User(BaseModel):
     """
     User Dto

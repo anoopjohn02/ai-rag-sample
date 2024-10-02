@@ -50,7 +50,7 @@ def save_message_token_usage(txn_token: TransactionalTokens):
                   prompt_cost, output_cost, token_usage.embedding_cost)
     messageTokenRepo.save_usage(token_usage)
 
-def get_message_token_usage() -> TokenUsage:
+def get_message_token_usage() -> List[TokenUsage]:
     """
     Method to get all message token usages
     """
@@ -61,11 +61,11 @@ def get_message_token_usage() -> TokenUsage:
         dto.llm_model = token.llm_model
         messages = get_messages_by_transaction_id(token.transaction_id)
         dto.messages = [Message(**message.__dict__) for message in messages]
-        dto.user = User(id=token.conversation_history.user_id)
+        dto.user = User(id=token.conversation_history.user_id, first_name="Anoop", last_name="John")
         usages.append(dto)
     return usages
 
-def get_document_embeddings() -> Embedding:
+def get_document_embeddings() -> List[Embedding]:
     """
     Method to get all embeddings
     """
@@ -77,7 +77,7 @@ def get_document_embeddings() -> Embedding:
         embeddings.append(dto)
     return embeddings
 
-def get_user_message_token_usage(user_id: uuid) -> TokenUsage:
+def get_user_message_token_usage(user_id: uuid) -> List[TokenUsage]:
     """
     Method to get user message token usages
     """
