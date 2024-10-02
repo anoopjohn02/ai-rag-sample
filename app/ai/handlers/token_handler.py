@@ -43,6 +43,7 @@ class TokenAsyncHandler(AsyncCallbackHandler):
         if self.calculate_tokens:
             for message_list in messages:
                 for message in message_list:
+                    logging.info(f"Prompt sent to LLM: {message.content}")
                     self.txn_token.sum_prompt_tokens(self.calculate_tokens(message.content))
         self.txn_token.start_time = datetime.utcnow()
 
