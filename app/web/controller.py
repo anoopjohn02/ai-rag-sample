@@ -2,13 +2,17 @@
 Controller module
 """
 import logging
-from fastapi_controllers import Controller, get, post
-from fastapi.responses import StreamingResponse
+import uuid
+
 from fastapi import Depends
+from fastapi.responses import StreamingResponse
+from fastapi_controllers import Controller, get, post
+
 from app.models.chat import Request
 from app.models.user import LoggedInUser
-from app.services import ChatService, get_message_token_usage, get_document_embeddings
+from app.services import ChatService, get_message_token_usage, get_document_embeddings, get_user_message_token_usage
 from app.web import valid_access_token, get_user_info
+
 
 class TestController(Controller):
     """
@@ -32,9 +36,11 @@ class TestController(Controller):
                     )
         service = ChatService()
         logging.info("New chat = %s", request.new_chat)
-        chat = service.start_chat(request, user)
         logging.info("User %s asked question: %s", user.first_name, request.question)
-        return StreamingResponse(chat.stream(request.question), media_type='text/event-stream')
+        agent = service.create_agent(request, user)
+        #return agent(request.question)["output"]
+        return StreamingResponse(agent.stream({request.question}), media_type='text/event-stream')
+
 
 class ChatController(Controller):
 
@@ -51,7 +57,7 @@ class ChatController(Controller):
         Get the answer for the user input
         """
         service = ChatService()
-        chat = service.start_chat(request, user)
+        chat = service.create_agent(request, user)
         logging.info("User %s asked question: %s", user.first_name, request.question)
         return StreamingResponse(chat.stream(request.question), media_type='text/event-stream')
 
@@ -69,6 +75,13 @@ class TokenUsageController(Controller):
         API to get token usage
         """
         return get_message_token_usage()
+
+    @get("/usage/{user_id}")
+    def user_token_usage(self, user_id: str):
+        """
+        API to get token usage for a user
+        """
+        return get_user_message_token_usage(uuid.UUID(user_id).hex)
     
     @get("/embeddings")
     def embeddings(self):

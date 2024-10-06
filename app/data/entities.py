@@ -1,16 +1,18 @@
 """
 Entity module
 """
-from typing import List
-from datetime import datetime
 import uuid
+from datetime import datetime
+from typing import List
+
+from langchain.schema.messages import AIMessage, HumanMessage, SystemMessage
 from sqlalchemy import DateTime, MetaData, Column
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import ForeignKey
 from sqlalchemy import String, Boolean, Integer, Numeric
 from sqlalchemy.dialects.postgresql import UUID
-from langchain.schema.messages import AIMessage, HumanMessage, SystemMessage
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+
 from app.config import Db as dbConfig
 
 Base = declarative_base(metadata=MetaData(schema = dbConfig.schema))

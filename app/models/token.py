@@ -2,11 +2,14 @@
 Costs per transaction
 """
 import uuid
-from uuid import UUID
+from datetime import datetime, timedelta
 from typing import List, Optional
-from datetime import datetime
+from uuid import UUID
+
 from pydantic import BaseModel
-from app.models.user import User
+
+from app.models.user import User, TokenUser
+
 
 class Document(BaseModel):
     """
@@ -36,6 +39,15 @@ class Message(BaseModel):
     """
     type: str
     content: str
+
+class TotalTokenUsage(BaseModel):
+    model: str
+    tokens: int = 0
+    cost: float = 0
+    execution_time: timedelta = 0
+    created_on: datetime
+    user: Optional[TokenUser] = None
+    messages: Optional[List[Message]] = []
 
 class TokenUsage(BaseModel):
     """

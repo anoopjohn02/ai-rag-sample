@@ -3,11 +3,14 @@ The chat history module
 """
 import logging
 import uuid
+
 from langchain.schema import BaseChatMessageHistory
+
 from app.services.conversation import (
     add_message_to_conversation,
     get_messages_by_conversation_id
-    )
+)
+
 
 class SqlMessageHistory(BaseChatMessageHistory):
     """

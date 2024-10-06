@@ -4,6 +4,8 @@ Message Token Usage Module
 import logging
 import uuid
 from typing import List
+
+from app.config.constants import MODEL_COSTS
 from app.data import MessageTokenUsage, MessageTokenUsageRepo, DocumentEmbeddingRepo
 from app.models.token import (TransactionalTokens,
                               TokenUsage,
@@ -11,7 +13,6 @@ from app.models.token import (TransactionalTokens,
                               Embedding,
                               Document)
 from app.models.user import User
-from app.config.constants import MODEL_COSTS
 from .conversation import get_messages_by_transaction_id
 
 messageTokenRepo = MessageTokenUsageRepo()
@@ -49,7 +50,7 @@ def save_message_token_usage(txn_token: TransactionalTokens):
                   prompt_cost, output_cost, token_usage.embedding_cost)
     messageTokenRepo.save_usage(token_usage)
 
-def get_message_token_usage() -> TokenUsage:
+def get_message_token_usage() -> List[TokenUsage]:
     """
     Method to get all message token usages
     """
@@ -60,11 +61,11 @@ def get_message_token_usage() -> TokenUsage:
         dto.llm_model = token.llm_model
         messages = get_messages_by_transaction_id(token.transaction_id)
         dto.messages = [Message(**message.__dict__) for message in messages]
-        dto.user = User(id=token.conversation_history.user_id)
+        dto.user = User(id=token.conversation_history.user_id, first_name="Anoop", last_name="John")
         usages.append(dto)
     return usages
 
-def get_document_embeddings() -> Embedding:
+def get_document_embeddings() -> List[Embedding]:
     """
     Method to get all embeddings
     """
@@ -75,3 +76,18 @@ def get_document_embeddings() -> Embedding:
         dto.docs = [Document(**doc.__dict__) for doc in entity.files]
         embeddings.append(dto)
     return embeddings
+
+def get_user_message_token_usage(user_id: uuid) -> List[TokenUsage]:
+    """
+    Method to get user message token usages
+    """
+    usages: List[TokenUsage] = []
+    tokens = messageTokenRepo.get_user_message_usages(user_id)
+    for token in tokens:
+        dto = TokenUsage(**token.__dict__)
+        dto.llm_model = token.llm_model
+        messages = get_messages_by_transaction_id(token.transaction_id)
+        dto.messages = [Message(**message.__dict__) for message in messages]
+        dto.user = User(id=token.conversation_history.user_id)
+        usages.append(dto)
+    return usages

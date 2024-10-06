@@ -3,8 +3,11 @@ Eureka Module
 """
 
 import logging
+
 import py_eureka_client.eureka_client as eureka_client
+
 from app.config import App as appConfig
+
 
 def register_app():
     """

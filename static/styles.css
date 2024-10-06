@@ -78,9 +78,10 @@ body {
   margin-right: 10px;
   background: #ddd;
   background-repeat: no-repeat;
-  background-position: center;
+  background-position: top;
   background-size: cover;
   border-radius: 50%;
+
 }
 .msg-bubble {
   max-width: 450px;

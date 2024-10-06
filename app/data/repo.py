@@ -2,13 +2,16 @@
 """
 Repository module
 """
+
 from sqlalchemy import select
-from app.data import (ConversationHistory, 
-                      ConversationMessage, 
-                      MessageTokenUsage, 
-                      DocumentEmbedding, 
+
+from app.data import (ConversationHistory,
+                      ConversationMessage,
+                      MessageTokenUsage,
+                      DocumentEmbedding,
                       DocumentEmbeddingFiles)
 from .sql_engine import Session
+
 
 class ConversationRepo():
     """
@@ -82,6 +85,14 @@ class MessageTokenUsageRepo():
         """
         with Session() as session:
             stmt = select(MessageTokenUsage)
+            return session.scalars(stmt).all()
+
+    def get_user_message_usages(self, user_id):
+        """
+        Method to fetch all token usages
+        """
+        with Session() as session:
+            stmt = select(MessageTokenUsage).join(MessageTokenUsage.conversation_history).where(ConversationHistory.user_id == user_id)
             return session.scalars(stmt).all()
 
 class DocumentEmbeddingRepo():

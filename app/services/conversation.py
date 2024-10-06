@@ -2,9 +2,11 @@
 Conversation module
 """
 import uuid
+
 from langchain.schema.messages import AIMessage, HumanMessage, SystemMessage
-from app.data.repo import ConversationMessageRepo, ConversationRepo
+
 from app.data.entities import ConversationHistory, ConversationMessage
+from app.data.repo import ConversationMessageRepo, ConversationRepo
 from .exceptions import ServiceException
 
 conversationRepo = ConversationRepo()

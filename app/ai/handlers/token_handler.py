@@ -1,15 +1,18 @@
 """
 Token handler module
 """
-from datetime import datetime
 import logging
+from datetime import datetime
 from typing import Any, Dict, List, Optional
 from uuid import UUID
+
 from langchain.callbacks.base import AsyncCallbackHandler
 from langchain.schema import LLMResult
 from langchain_core.messages import BaseMessage
+
 from app.models.token import TransactionalTokens
 from app.services.token_usage import save_message_token_usage
+
 
 class TokenAsyncHandler(AsyncCallbackHandler):
     """
@@ -40,6 +43,7 @@ class TokenAsyncHandler(AsyncCallbackHandler):
         if self.calculate_tokens:
             for message_list in messages:
                 for message in message_list:
+                    logging.info(f"Prompt sent to LLM: {message.content}")
                     self.txn_token.sum_prompt_tokens(self.calculate_tokens(message.content))
         self.txn_token.start_time = datetime.utcnow()
 

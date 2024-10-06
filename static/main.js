@@ -23,7 +23,7 @@ function appendMessage(name, img, side, text) {
   //   Simple solution for small apps
   var messageId = crypto.randomUUID();
   const msgHTML = `
-    <div class="msg ${side}-msg">
+    <div class="msg ${side}-msg" style="align-items: flex-start">
       <div class="msg-img" style="background-image: url(${img})"></div>
 
       <div class="msg-bubble">
@@ -76,6 +76,7 @@ async function processStreamingResponse(url, messageId, chatMessage) {
     },
     body: JSON.stringify(chatMessage)
   });
+  new_chat = false;
   if (!response.ok) {
     var textElement = document.getElementById(messageId);
     var messageText = document.createTextNode('Network response was not ok');

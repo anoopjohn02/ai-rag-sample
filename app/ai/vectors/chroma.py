@@ -2,8 +2,9 @@
 The chroma module
 """
 from langchain_chroma import Chroma
-from app.config import ChromaConfig as config
+
 from app.ai.llms import build_embeddings
+from app.config import ChromaConfig as config
 
 db = Chroma(
     persist_directory=config.dir,
