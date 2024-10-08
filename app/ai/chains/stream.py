@@ -29,4 +29,4 @@ class Streamable:
             token = queue.get()
             if token is None:
                 break
-            yield token
+            yield token.replace('\n', '<br>')

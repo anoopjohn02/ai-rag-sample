@@ -94,7 +94,6 @@ async function processStreamingResponse(url, messageId, chatMessage) {
     console.log(chunk);
     // Process the chunk of streaming data
     var textElement = document.getElementById(messageId);
-    var messageText = document.createTextNode(chunk);
-    textElement.appendChild(messageText);
+    textElement.innerHTML += chunk;
   }
 }

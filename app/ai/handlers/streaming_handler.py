@@ -28,7 +28,7 @@ class StreamingHandler(BaseCallbackHandler):
             self.streaming_run_ids.add(run_id)
 
     def on_llm_new_token(self, token, **kwargs):
-        logging.debug("Inside streaming handler %s", token)
+        logging.info("Inside streaming handler %s", token)
         self.queue.put(token)
 
     def on_llm_end(self, response, run_id, **kwargs):
