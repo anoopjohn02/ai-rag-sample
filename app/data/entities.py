@@ -8,7 +8,7 @@ from typing import List
 from langchain.schema.messages import AIMessage, HumanMessage, SystemMessage
 from sqlalchemy import DateTime, MetaData, Column
 from sqlalchemy import ForeignKey
-from sqlalchemy import String, Boolean, Integer, Numeric
+from sqlalchemy import String, Boolean, Integer, Numeric, Text
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -109,3 +109,16 @@ class DocumentEmbeddingFiles(Base):
     processed_date: Mapped[datetime] = mapped_column(DateTime)
     last_modified: Mapped[datetime] = mapped_column(DateTime)
     embedding: Mapped["DocumentEmbedding"] = relationship(back_populates="files")
+
+class Devices(Base):
+    """
+    Devices Class
+    """
+    __tablename__ = "devices"
+
+    id: Mapped[uuid.UUID] = mapped_column(primary_key=True)
+    name: Mapped[str] = mapped_column(String(30))
+    description: Mapped[str] = mapped_column(Text)
+    type: Mapped[str] = mapped_column(String(30))
+    created_on = Column(DateTime, default=datetime.utcnow)
+    user_id: Mapped[uuid.UUID]

@@ -5,10 +5,12 @@ from .entities import (ConversationHistory,
                        ConversationMessage,
                        MessageTokenUsage,
                        DocumentEmbedding,
-                       DocumentEmbeddingFiles)
+                       DocumentEmbeddingFiles,
+                       Devices)
 from .repo import (ConversationRepo,
                    ConversationMessageRepo,
                    MessageTokenUsageRepo,
                    DocumentEmbeddingRepo,
-                   DocumentEmbeddingFilesRepo)
+                   DocumentEmbeddingFilesRepo,
+                   DeviceRepo)
 from .sql_engine import check_db

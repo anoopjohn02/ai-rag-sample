@@ -5,15 +5,16 @@ Repository module
 
 from sqlalchemy import select
 
-from app.data import (ConversationHistory,
+from .entities import (ConversationHistory,
                       ConversationMessage,
                       MessageTokenUsage,
                       DocumentEmbedding,
-                      DocumentEmbeddingFiles)
+                      DocumentEmbeddingFiles,
+                      Devices)
 from .sql_engine import Session
 
 
-class ConversationRepo():
+class ConversationRepo:
     """
     Conversation Repo
     """
@@ -42,7 +43,7 @@ class ConversationRepo():
                                                      ConversationHistory.deleted == False)
             return session.scalars(stmt).all()
 
-class ConversationMessageRepo():
+class ConversationMessageRepo:
     """
     Conversation Message Repo
     """
@@ -68,7 +69,7 @@ class ConversationMessageRepo():
             stmt = select(ConversationMessage).where(ConversationMessage.transaction_id == txn_id)
             return session.scalars(stmt).all()
 
-class MessageTokenUsageRepo():
+class MessageTokenUsageRepo:
     """
     Token Usage Repo for Messages
     """
@@ -95,7 +96,7 @@ class MessageTokenUsageRepo():
             stmt = select(MessageTokenUsage).join(MessageTokenUsage.conversation_history).where(ConversationHistory.user_id == user_id)
             return session.scalars(stmt).all()
 
-class DocumentEmbeddingRepo():
+class DocumentEmbeddingRepo:
     """
     Document Embeddings Repo
     """
@@ -114,7 +115,7 @@ class DocumentEmbeddingRepo():
             stmt = select(DocumentEmbedding)
             return session.scalars(stmt).all()
 
-class DocumentEmbeddingFilesRepo():
+class DocumentEmbeddingFilesRepo:
     """
     Document Embedding Files Repo
     """
@@ -125,3 +126,23 @@ class DocumentEmbeddingFilesRepo():
         with Session() as session:
             session.add(embedding_file)
             session.commit()
+
+class DeviceRepo:
+    """
+    Device Repo
+    """
+    def save_device(self, device : Devices):
+        """
+        Method to save devices
+        """
+        with Session() as session:
+            session.add(device)
+            session.commit()
+
+    def get_user_devices(self, user_id):
+        """
+        Method to fetch all user devices
+        """
+        with Session() as session:
+            stmt = select(Devices).where(Devices.user_id == user_id)
+            return session.scalars(stmt).all()

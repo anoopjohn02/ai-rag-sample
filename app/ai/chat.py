@@ -13,7 +13,7 @@ from app.ai.memories import build_memory
 from app.config import CUSTOM_PROMPT_TEMPLATE, CUSTOM_PROMPT
 from app.models.chat import ChatArgs
 from .handlers import build_token_handler
-from .tools import define_user_token_usage_tool, vector_tool
+from .tools import define_user_token_usage_tool, vector_tool, define_devices_tool
 
 PROMPT = PromptTemplate(
             template=CUSTOM_PROMPT_TEMPLATE,
@@ -34,7 +34,11 @@ def build_agent(chat_args: ChatArgs):
     handlers = [token_handler]
     llm = build_llm(chat_args, handlers)
     memory = build_memory(chat_args)
-    tools = [define_user_token_usage_tool(chat_args.user_id), vector_tool]
+    tools = [
+        define_devices_tool(chat_args.user_id),
+        define_user_token_usage_tool(chat_args.user_id),
+        vector_tool
+    ]
     agent = OpenAIFunctionsAgent(llm = llm, tools = tools, prompt = prompt)
     return StreamingAgentExecutor(
         agent=agent,
