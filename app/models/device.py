@@ -12,4 +12,4 @@ class DeviceDto(BaseModel):
     name: str
     description: str
     type: str
-    created_on: Optional[datetime] = datetime.utcnow()
+    created_on: Optional[datetime] = None
