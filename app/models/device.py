@@ -13,3 +13,10 @@ class DeviceDto(BaseModel):
     description: str
     type: str
     created_on: Optional[datetime] = None
+
+    def to_dict(self):
+        return {
+            'name': self.name,
+            'type': self.type,
+            'description': self.description,
+        }

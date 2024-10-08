@@ -1,18 +1,17 @@
 
-import logging
-from typing import List
+import logging, json
 from langchain_core.tools import Tool
-from app.models.device import DeviceDto
 from app.services.devices import get_user_devices
 
 
-def devices_tool(user_id: str, *args) -> List[DeviceDto]:
-    logging.info("devices_query: User with id %s", user_id)
-    return get_user_devices(user_id)
+def devices_tool(user_id: str, *args) -> str:
+    logging.debug("devices_query: User with id %s", user_id)
+    device_dicts = [device.to_dict() for device in get_user_devices(user_id)]
+    return json.dumps(device_dicts)
 
 def define_devices_tool(user_id: str):
-    def devices_tool_wrapper(*args) -> List[DeviceDto]:
-        logging.info("Given: %s", args)
+    def devices_tool_wrapper(*args) -> str:
+        logging.debug("Given: %s", args)
         return devices_tool(user_id, args)
 
     return Tool.from_function(
