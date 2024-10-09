@@ -1,9 +1,11 @@
 # AI CHAT #
 
-A sample AI Chatbot using RAG architectures
-Major libraries used:
+A sample AI Chatbot using RAG architectures.
+
+### Major libraries used: ###
 
 * LangChain - Language processing
+  * Chains, Agents, and Tools
 * OpenAI - LLM
 * FastApi - APIs
 * SQLAlchemy - ORM
