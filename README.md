@@ -1,8 +1,14 @@
-# AI CHAT #
+# AI Assistant using LangChain and OpenAI #
 
-A sample AI Chatbot using RAG architectures.
+This is an AI-driven chatbot that answers the queries for the user's questions. The chatbot will answer the questions from different data sources such as:
+* Documents uploaded (RAG architecture)
+* Data from specific tables in database. For example
+  * Questions about the user devices. Check device table. Use postman to insert data.
+  * Questions about the token usages. Provide approx value os token usages and costs
 
-### Major libraries used: ###
+Once you have run the application go to [http://localhost:8080/ui](http://localhost:8080/ui) to see the chatbot
+
+### Libraries used: ###
 
 * LangChain - Language processing
   * Chains, Agents, and Tools
